@@ -16,4 +16,14 @@ public class HelloController {
     public String hello() {
         return "hello " + SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "ADMIN";
+    }
+
+    @GetMapping("/manager")
+    public String manager() {
+        return "MANAGER";
+    }
 }
