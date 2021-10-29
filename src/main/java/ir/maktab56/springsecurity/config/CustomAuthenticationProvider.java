@@ -1,10 +1,7 @@
 package ir.maktab56.springsecurity.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,16 +24,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (userDetails.isEnabled()) {
 
-            return new UsernamePasswordAuthenticationToken(
-                    username,
-                    password,
-                    userDetails.getAuthorities()
-            );
+            if (passwordEncoder.matches(password, userDetails.getPassword())) {
 
+                return new UsernamePasswordAuthenticationToken(
+                        username,
+                        password,
+                        userDetails.getAuthorities()
+                );
+
+            } else {
+                throw new BadCredentialsException("wrong pass!!!");
+            }
         } else {
-            throw new BadCredentialsException("wrong pass!!!");
+            throw new DisabledException("user is disabled!!!");
         }
     }
 
