@@ -4,9 +4,11 @@ import ir.maktab56.springsecurity.domain.User;
 import ir.maktab56.springsecurity.repository.UserRepository;
 import ir.maktab56.springsecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -51,6 +53,12 @@ public class UserServiceImpl implements UserService {
                             .build()
             );
         }
+    }
+
+    @Override
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
 }
