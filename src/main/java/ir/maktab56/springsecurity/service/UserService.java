@@ -14,4 +14,7 @@ public interface UserService {
     void initUsers();
 
     List<User> getAll();
+
+    <P> P getUserByUsername(String username, Class<P> clazz);
+
 }
