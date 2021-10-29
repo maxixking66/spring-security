@@ -1,7 +1,8 @@
 package ir.maktab56.springsecurity.resource;
 
-import ir.maktab56.springsecurity.domain.User;
+import ir.maktab56.springsecurity.mapper.UserMapper;
 import ir.maktab56.springsecurity.service.UserService;
+import ir.maktab56.springsecurity.service.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,14 @@ public class UserResource {
 
     private final UserService userService;
 
+    private final UserMapper userMapper;
+
     @GetMapping
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<UserDTO>> getAll() {
         return ResponseEntity.ok(
-                userService.getAll()
+                userMapper.convertListEntityToDTO(
+                        userService.getAll()
+                )
         );
     }
 
