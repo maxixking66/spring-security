@@ -20,11 +20,17 @@ public class SecurityUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(
-                new SimpleGrantedAuthority(
-                        "read"
-                )
-        );
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            user.getRoles()
+                    .forEach(role ->
+                            authorities.add(
+                                    new SimpleGrantedAuthority(
+                                            role.getName()
+                                    )
+                            )
+
+                    );
+        }
         return authorities;
 
         /*return Collections.singletonList(

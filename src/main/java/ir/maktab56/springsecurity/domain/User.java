@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -39,5 +41,8 @@ public class User implements Serializable {
 
     @Column(name = IS_ACTIVE)
     private Boolean isActive;
+
+    @ManyToMany
+    private Set<Role> roles = new HashSet<>();
 
 }
