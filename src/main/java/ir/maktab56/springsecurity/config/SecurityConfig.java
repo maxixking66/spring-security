@@ -69,8 +69,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority("delete", "read");*/
 /*        http.authorizeRequests().anyRequest()
                 .access("hasAnyAuthority('delete')");*/
-        http.authorizeRequests().anyRequest()
-                .hasRole("ROLE_ADMIN");
+        /*http.authorizeRequests().anyRequest()
+                .hasRole("ROLE_ADMIN");*/
+
+        http.authorizeRequests()
+                .mvcMatchers("/admin")
+                .hasRole("ADMIN")
+                .mvcMatchers("/manager")
+                .hasRole("MANAGER")
+                .and()
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll();
+
         http.httpBasic();
         http.formLogin();
     }
