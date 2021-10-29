@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,14 +43,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         InMemoryUserDetailsManager userDetailsService =
                 new InMemoryUserDetailsManager();
 
-        UserDetails userDetails =
-                User
-                        .withUsername("ali")
-                        .password("erfagh")
-                        .authorities("read")
-                        .build();
-
-        userDetailsService.createUser(userDetails);
+        userDetailsService.createUser(User
+                .withUsername("ali")
+                .password("erfagh")
+                .authorities("read")
+                .build());
+        userDetailsService.createUser(User
+                .withUsername("milad")
+                .password("123456")
+                .authorities("read")
+                .build());
 
         return userDetailsService;
     }
