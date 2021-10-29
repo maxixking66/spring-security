@@ -22,13 +22,22 @@ public class SecurityUser implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (user.getRoles() != null && !user.getRoles().isEmpty()) {
             user.getRoles()
-                    .forEach(role ->
-                            authorities.add(
-                                    new SimpleGrantedAuthority(
-                                            role.getName()
-                                    )
-                            )
-
+                    .forEach(role -> {
+                                authorities.add(
+                                        new SimpleGrantedAuthority(
+                                                "ROLE_".concat(role.getName())
+                                        )
+                                );
+                                if (role.getOperations() != null && !role.getOperations().isEmpty()) {
+                                    role.getOperations().forEach(operation ->
+                                            authorities.add(
+                                                    new SimpleGrantedAuthority(
+                                                            operation.getName()
+                                                    )
+                                            )
+                                    );
+                                }
+                            }
                     );
         }
         return authorities;
